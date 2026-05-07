@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
+import DepositModal from "@/components/DepositModal";
+import WithdrawModal from "@/components/WithdrawModal";
 
 const particles = Array.from({ length: 12 }, (_, i) => ({
   id: i,
@@ -27,6 +29,8 @@ const tokens = [
 
 export default function Dashboard() {
   const [copied, setCopied] = useState(false);
+  const [showDeposit, setShowDeposit] = useState(false);
+  const [showWithdraw, setShowWithdraw] = useState(false);
   const address = "0x4f3A...8B2c";
   const fullAddress = "0x4f3A9b21c8f302E5a7d89B2c4F1e0A3d88B2c4F1";
 
@@ -37,6 +41,7 @@ export default function Dashboard() {
   };
 
   return (
+    <>
     <div className="min-h-screen relative overflow-hidden grid-bg">
       {/* Частицы фона */}
       {particles.map((p) => (
@@ -123,11 +128,17 @@ export default function Dashboard() {
 
           {/* Кнопки действий */}
           <div className="flex gap-3 mt-5">
-            <button className="btn-neon-cyan flex-1 rounded-2xl py-3 flex items-center justify-center gap-2 text-sm font-bold">
+            <button
+              onClick={() => setShowDeposit(true)}
+              className="btn-neon-cyan flex-1 rounded-2xl py-3 flex items-center justify-center gap-2 text-sm font-bold"
+            >
               <Icon name="ArrowDownLeft" size={16} />
               Получить
             </button>
-            <button className="btn-neon-violet flex-1 rounded-2xl py-3 flex items-center justify-center gap-2 text-sm font-bold">
+            <button
+              onClick={() => setShowWithdraw(true)}
+              className="btn-neon-violet flex-1 rounded-2xl py-3 flex items-center justify-center gap-2 text-sm font-bold"
+            >
               <Icon name="ArrowUpRight" size={16} />
               Отправить
             </button>
@@ -206,5 +217,9 @@ export default function Dashboard() {
 
       </div>
     </div>
+
+    {showDeposit && <DepositModal onClose={() => setShowDeposit(false)} />}
+    {showWithdraw && <WithdrawModal onClose={() => setShowWithdraw(false)} />}
+    </>
   );
 }
